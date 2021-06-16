@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CategoryRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -22,6 +24,22 @@ class Category
      */
     private $libelle;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Profile::class, mappedBy="category")
+     */
+    private $profile;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Competence::class, mappedBy="category")
+     */
+    private $competence;
+
+    public function __construct()
+    {
+        $this->profile = new ArrayCollection();
+        $this->competence = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -35,6 +53,66 @@ class Category
     public function setLibelle(string $libelle): self
     {
         $this->libelle = $libelle;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Profile[]
+     */
+    public function getProfile(): Collection
+    {
+        return $this->profile;
+    }
+
+    public function addProfile(Profile $profile): self
+    {
+        if (!$this->profile->contains($profile)) {
+            $this->profile[] = $profile;
+            $profile->setCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProfile(Profile $profile): self
+    {
+        if ($this->profile->removeElement($profile)) {
+            // set the owning side to null (unless already changed)
+            if ($profile->getCategory() === $this) {
+                $profile->setCategory(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Competence[]
+     */
+    public function getCompetence(): Collection
+    {
+        return $this->competence;
+    }
+
+    public function addCompetence(Competence $competence): self
+    {
+        if (!$this->competence->contains($competence)) {
+            $this->competence[] = $competence;
+            $competence->setCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCompetence(Competence $competence): self
+    {
+        if ($this->competence->removeElement($competence)) {
+            // set the owning side to null (unless already changed)
+            if ($competence->getCategory() === $this) {
+                $competence->setCategory(null);
+            }
+        }
 
         return $this;
     }

@@ -39,6 +39,11 @@ class Competence
      */
     private $profiles;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="competence")
+     */
+    private $category;
+
     public function __construct()
     {
         $this->profiles = new ArrayCollection();
@@ -108,6 +113,18 @@ class Competence
         if ($this->profiles->removeElement($profile)) {
             $profile->removeCompetence($this);
         }
+
+        return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): self
+    {
+        $this->category = $category;
 
         return $this;
     }
