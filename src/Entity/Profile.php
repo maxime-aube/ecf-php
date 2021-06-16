@@ -70,10 +70,16 @@ class Profile
      */
     private $category;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Document::class, mappedBy="profile")
+     */
+    private $document;
+
     public function __construct()
     {
         $this->competences = new ArrayCollection();
         $this->experiences = new ArrayCollection();
+        $this->document = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -227,6 +233,36 @@ class Profile
     public function setCategory(?Category $category): self
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Document[]
+     */
+    public function getDocument(): Collection
+    {
+        return $this->document;
+    }
+
+    public function addDocument(Document $document): self
+    {
+        if (!$this->document->contains($document)) {
+            $this->document[] = $document;
+            $document->setProfile($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDocument(Document $document): self
+    {
+        if ($this->document->removeElement($document)) {
+            // set the owning side to null (unless already changed)
+            if ($document->getProfile() === $this) {
+                $document->setProfile(null);
+            }
+        }
 
         return $this;
     }

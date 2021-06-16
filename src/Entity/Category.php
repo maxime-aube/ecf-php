@@ -34,10 +34,16 @@ class Category
      */
     private $competence;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Document::class, mappedBy="category")
+     */
+    private $document;
+
     public function __construct()
     {
         $this->profile = new ArrayCollection();
         $this->competence = new ArrayCollection();
+        $this->document = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -111,6 +117,36 @@ class Category
             // set the owning side to null (unless already changed)
             if ($competence->getCategory() === $this) {
                 $competence->setCategory(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Document[]
+     */
+    public function getDocument(): Collection
+    {
+        return $this->document;
+    }
+
+    public function addDocument(Document $document): self
+    {
+        if (!$this->document->contains($document)) {
+            $this->document[] = $document;
+            $document->setCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDocument(Document $document): self
+    {
+        if ($this->document->removeElement($document)) {
+            // set the owning side to null (unless already changed)
+            if ($document->getCategory() === $this) {
+                $document->setCategory(null);
             }
         }
 
