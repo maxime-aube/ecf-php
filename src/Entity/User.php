@@ -9,7 +9,6 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
- * @ORM\Table(name="`user`")
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -37,29 +36,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $password;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\OneToOne(targetEntity=Profile::class, cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $firstName;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $lastName;
-
-    /**
-     * @ORM\Column(type="date")
-     */
-    private $birthDate;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $address;
-
-    /**
-     * @ORM\Column(type="string", length=10, nullable=true)
-     */
-    private $tel;
+    private $profile;
 
     public function getId(): ?int
     {
@@ -107,9 +87,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getUsername()
+
+    public function getUsername(): ?string
     {
-        // TODO: Implement getUsername() method.
+        return $this->email;
     }
 
     /**
@@ -126,6 +107,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+
 
     /**
      * Returning a salt is only needed, if you are not using a modern
@@ -147,62 +130,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
-    public function getFirstName(): ?string
+    public function getProfile(): ?Profile
     {
-        return $this->firstName;
+        return $this->profile;
     }
 
-    public function setFirstName(string $firstName): self
+    public function setProfile(Profile $profile): self
     {
-        $this->firstName = $firstName;
-
-        return $this;
-    }
-
-    public function getLastName(): ?string
-    {
-        return $this->lastName;
-    }
-
-    public function setLastName(string $lastName): self
-    {
-        $this->lastName = $lastName;
-
-        return $this;
-    }
-
-    public function getBirthDate(): ?\DateTimeInterface
-    {
-        return $this->birthDate;
-    }
-
-    public function setBirthDate(\DateTimeInterface $birthDate): self
-    {
-        $this->birthDate = $birthDate;
-
-        return $this;
-    }
-
-    public function getAddress(): ?string
-    {
-        return $this->address;
-    }
-
-    public function setAddress(?string $address): self
-    {
-        $this->address = $address;
-
-        return $this;
-    }
-
-    public function getTel(): ?string
-    {
-        return $this->tel;
-    }
-
-    public function setTel(?string $tel): self
-    {
-        $this->tel = $tel;
+        $this->profile = $profile;
 
         return $this;
     }
