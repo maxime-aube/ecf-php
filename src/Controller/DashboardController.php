@@ -14,8 +14,15 @@ class DashboardController extends AbstractController
      */
     public function index(): Response
     {
+        // rejet si non connecté
+        // accès réservé aux commerciaux/admin
+        // redirection en cas de rejet: not auth->login, auth not allowed -> own profile (collaborateur)
+
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
         return $this->render('dashboard/index.html.twig', [
             'controller_name' => 'DashboardController',
+            'user' => $this->getUser()
         ]);
     }
 }

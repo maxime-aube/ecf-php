@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouveau profil{% endblock %}
+
+{% block body %}
+{#    TODO : flash message (erreur) pour le nouveau profil (formulaire incorrect)#}
+{#    {% for flashError in app.flashes('verify_email_error') %}#}
+{#        <div class="alert alert-danger" role="alert">{{ flashError }}</div>#}
+{#    {% endfor %}#}
+
+    <h1>Création d'un nouveau profil</h1>
+
+    {{ form_start(form) }}
+
+    {{ form_row(form.lastName, {
+        label: 'Nom'
+    }) }}
+    {{ form_row(form.firstName, {
+        label: 'Prénom'
+    }) }}
+    {{ form_row(form.birthDate, {
+        label: 'Date de naissance'
+    }) }}
+    {{ form_row(form.address, {
+        label: 'Adresse'
+    }) }}
+    {{ form_row(form.tel, {
+        label: 'Téléphone'
+    }) }}
+    {{ form_row(form.essay, {
+        label: 'Description'
+    }) }}
+    {{ form_row(form.competences, {
+        label: 'Compétences'
+    }) }}
+    {{ form_row(form.category, {
+        label: 'Catégorie utilisateur'
+    }) }}
+    {{ form_row(form.displayedToPeers, {
+        label: 'afficher aux autres'
+    }) }}
+
+    <button type="submit" class="btn">Enregistrer</button>
+    {{ form_end(form) }}
+{% endblock %}
