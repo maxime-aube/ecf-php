@@ -22,7 +22,6 @@ class ProfileType extends AbstractType
             ->add('tel')
             ->add('displayedToPeers')
             ->add('essay')
-            ->add('profileCompetence')
             ->add('category')
         ;
     }
