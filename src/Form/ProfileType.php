@@ -2,8 +2,11 @@
 
 namespace App\Form;
 
+use App\Entity\Competence;
 use App\Entity\Profile;
+use phpDocumentor\Reflection\Types\Collection;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -19,7 +22,7 @@ class ProfileType extends AbstractType
             ->add('tel')
             ->add('displayedToPeers')
             ->add('essay')
-            ->add('competences')
+            ->add('profileCompetence')
             ->add('category')
         ;
     }
