@@ -55,11 +55,6 @@ class Profile
     private $essay;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Competence::class, inversedBy="profiles")
-     */
-    private $competences;
-
-    /**
      * @ORM\OneToMany(targetEntity=Experience::class, mappedBy="profile")
      */
     private $experiences;
@@ -75,11 +70,16 @@ class Profile
      */
     private $document;
 
+    /**
+     * @ORM\OneToMany(targetEntity=ProfileCompetence::class, mappedBy="profile")
+     */
+    private $profileCompetence;
+
     public function __construct()
     {
-        $this->competences = new ArrayCollection();
         $this->experiences = new ArrayCollection();
         $this->document = new ArrayCollection();
+        $this->profileCompetence = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -172,30 +172,6 @@ class Profile
     }
 
     /**
-     * @return Collection|Competence[]
-     */
-    public function getCompetences(): Collection
-    {
-        return $this->competences;
-    }
-
-    public function addCompetence(Competence $competence): self
-    {
-        if (!$this->competences->contains($competence)) {
-            $this->competences[] = $competence;
-        }
-
-        return $this;
-    }
-
-    public function removeCompetence(Competence $competence): self
-    {
-        $this->competences->removeElement($competence);
-
-        return $this;
-    }
-
-    /**
      * @return Collection|Experience[]
      */
     public function getExperiences(): Collection
@@ -261,6 +237,36 @@ class Profile
             // set the owning side to null (unless already changed)
             if ($document->getProfile() === $this) {
                 $document->setProfile(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ProfileCompetence[]
+     */
+    public function getProfileCompetence(): Collection
+    {
+        return $this->profileCompetence;
+    }
+
+    public function addProfileCompetence(ProfileCompetence $profileCompetence): self
+    {
+        if (!$this->profileCompetence->contains($profileCompetence)) {
+            $this->profileCompetence[] = $profileCompetence;
+            $profileCompetence->setProfile($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProfileCompetence(ProfileCompetence $profileCompetence): self
+    {
+        if ($this->profileCompetence->removeElement($profileCompetence)) {
+            // set the owning side to null (unless already changed)
+            if ($profileCompetence->getProfile() === $this) {
+                $profileCompetence->setProfile(null);
             }
         }
 

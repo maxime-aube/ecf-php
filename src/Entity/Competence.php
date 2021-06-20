@@ -25,29 +25,20 @@ class Competence
     private $libelle;
 
     /**
-     * @ORM\Column(type="smallint")
-     */
-    private $level;
-
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $liked;
-
-    /**
-     * @ORM\ManyToMany(targetEntity=Profile::class, mappedBy="competences")
-     */
-    private $profiles;
-
-    /**
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="competence")
      */
     private $category;
 
+    /**
+     * @ORM\OneToMany(targetEntity=ProfileCompetence::class, mappedBy="competence")
+     */
+    private $profileCompetences;
+
     public function __construct()
     {
-        $this->profiles = new ArrayCollection();
+        $this->profileCompetences = new ArrayCollection();
     }
+
 
     public function getId(): ?int
     {
@@ -66,57 +57,6 @@ class Competence
         return $this;
     }
 
-    public function getLevel(): ?int
-    {
-        return $this->level;
-    }
-
-    public function setLevel(int $level): self
-    {
-        $this->level = $level;
-
-        return $this;
-    }
-
-    public function getLiked(): ?bool
-    {
-        return $this->liked;
-    }
-
-    public function setLiked(bool $liked): self
-    {
-        $this->liked = $liked;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Profile[]
-     */
-    public function getProfiles(): Collection
-    {
-        return $this->profiles;
-    }
-
-    public function addProfile(Profile $profile): self
-    {
-        if (!$this->profiles->contains($profile)) {
-            $this->profiles[] = $profile;
-            $profile->addCompetence($this);
-        }
-
-        return $this;
-    }
-
-    public function removeProfile(Profile $profile): self
-    {
-        if ($this->profiles->removeElement($profile)) {
-            $profile->removeCompetence($this);
-        }
-
-        return $this;
-    }
-
     public function getCategory(): ?Category
     {
         return $this->category;
@@ -125,6 +65,36 @@ class Competence
     public function setCategory(?Category $category): self
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ProfileCompetence[]
+     */
+    public function getProfileCompetences(): Collection
+    {
+        return $this->profileCompetences;
+    }
+
+    public function addProfileCompetence(ProfileCompetence $profileCompetence): self
+    {
+        if (!$this->profileCompetences->contains($profileCompetence)) {
+            $this->profileCompetences[] = $profileCompetence;
+            $profileCompetence->setCompetence($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProfileCompetence(ProfileCompetence $profileCompetence): self
+    {
+        if ($this->profileCompetences->removeElement($profileCompetence)) {
+            // set the owning side to null (unless already changed)
+            if ($profileCompetence->getCompetence() === $this) {
+                $profileCompetence->setCompetence(null);
+            }
+        }
 
         return $this;
     }
