@@ -20,9 +20,9 @@ class ProfileType extends AbstractType
             ->add('birthDate')
             ->add('address')
             ->add('tel')
-            ->add('displayedToPeers')
-            ->add('essay')
             ->add('category')
+            ->add('essay')
+            ->add('displayedToPeers')
         ;
     }
 
