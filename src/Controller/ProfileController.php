@@ -8,22 +8,38 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
  * Class ProfileController
  * @package App\Controller
  * @Route("/profile")
+ * @IsGranted("ROLE_USER")
  */
 class ProfileController extends AbstractController
 {
     /**
      * Affiche un profil à partir de l'ID
+     * @Route("")
      * @Route("/{profile}", name="show_profile", requirements={"profile"="\d+"})
+     * @param ?Profile $profile
+     * @return Response
      */
-    public function index($profile): Response
+    public function index(?Profile $profile): Response
     {
+        // redirige vers le propre profil de l'utilisateur en cas de requête erronnée/interdite
+        if (
+            !isset($profile) ||                                                                         // profile mal requêté
+            (!$this->isGranted('ROLE_ADMIN') && $profile !== $this->getUser()->getProfile())    // profil interdit d'accès
+        ) {
+            $profile = $this->getUser()->getProfile();
+            $this->addFlash('error', 'Redirection profil : le profil auquel vous avez tenté d\'accéder était introuvable ou ne vous est pas ouvert.' );
+            $this->redirectToRoute('show_profile', ['profile' => $profile->getId()]);
+        }
+
         return $this->render('profile/index.html.twig', [
-            'controller_name' => 'ProfileController',
+            'profile' => $profile,
+            'admin' => in_array('ROLE_ADMIN', $this->getUser()->getRoles())
         ]);
     }
 

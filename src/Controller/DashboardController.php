@@ -5,12 +5,15 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class DashboardController extends AbstractController
 {
     /**
      * @Route("/", name="default")
      * @Route("/dashboard", name="dashboard")
+     * @Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_COMMERCIAL')")
+     * @return Response
      */
     public function index(): Response
     {
@@ -18,7 +21,7 @@ class DashboardController extends AbstractController
         // accès réservé aux commerciaux/admin
         // redirection en cas de rejet: not auth->login, auth not allowed -> own profile (collaborateur)
 
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+//        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
         return $this->render('dashboard/index.html.twig', [
             'controller_name' => 'DashboardController',

@@ -9,12 +9,17 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
+    {% for message in app.flashes('error') %}
+        <p>{{ message }}</p>
+    {% endfor %}
+    <h1>{{ profile.firstName }} {{ profile.lastName }}</h1>
     <ul>
-        <li>Your controller at <code><a href="{{ '/home/perso/Bureau/cefim/ECF_Symfony/skillhub/src/Controller/ProfileController.php'|file_link(0) }}">src/Controller/ProfileController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/home/perso/Bureau/cefim/ECF_Symfony/skillhub/templates/profile/index.html.twig'|file_link(0) }}">templates/profile/index.html.twig</a></code></li>
+        <li>Date de naissance : {{ profile.birthDate|date('d/m/Y') }}</li>
+        <li>Email : <a href="mailto:{{ profile.user.email }}">{{ profile.user.email }}</a></li>
+        <li>Adresse : {% if profile.address is not null %}{{ profile.address }}{% else %}(non renseigné){% endif %}</li>
+        <li>Téléphone : {% if profile.tel is not null %}{{ profile.tel }}{% else %}(non renseigné){% endif %}</li>
+        <li>Description : {{ profile.essay }}</li>
+        {% if admin %}<li>Visible par les autres : {{ (profile.displayedToPeers) ? '✅' : '❌' }}</li>{% endif %}
     </ul>
 </div>
 {% endblock %}

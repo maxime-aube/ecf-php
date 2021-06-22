@@ -75,6 +75,11 @@ class Profile
      */
     private $profileCompetence;
 
+    /**
+     * @ORM\OneToOne(targetEntity=User::class, cascade={"persist"})
+     */
+    private $user;
+
     public function __construct()
     {
         $this->experiences = new ArrayCollection();
@@ -269,6 +274,18 @@ class Profile
                 $profileCompetence->setProfile(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }
