@@ -1,9 +1,25 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello CompetenceController!{% endblock %}
+{% block title %}gestion compétences{% endblock %}
 
 {% block body %}
 
-    <h1>Compétences de l'utilisateur {{ dump(app) }}</h1>
+    <h1>Gestion des compétences</h1>
+
+    <div>
+        <h2>Ajouter une compétence</h2>
+        {#    formulaire ajout compétence à la nomenclature#}
+    </div>
+
+    <div>
+        <h2>Liste des compétences</h2>
+        <ul>
+            {% for competence in competences|sort((a, b) => a.libelle <=> b.libelle) %}
+                <li>{{ competence.libelle }}</li>
+                {#    supprimer compétence#}
+                {# ajouter les catégories #}
+            {% endfor %}
+        </ul>
+    </div>
 
 {% endblock %}

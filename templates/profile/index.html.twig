@@ -8,7 +8,7 @@
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 </style>
 
-<div class="example-wrapper">
+<div>
     {% for message in app.flashes('error') %}
         <p>{{ message }}</p>
     {% endfor %}
@@ -21,5 +21,11 @@
         <li>Description : {{ profile.essay }}</li>
         {% if admin %}<li>Visible par les autres : {{ (profile.displayedToPeers) ? '✅' : '❌' }}</li>{% endif %}
     </ul>
+
+    <p>
+        <a href="{{ path('show_profile_competences', {'profile': profile.id }) }}">Voir les compétences</a>
+{#        <a href="{{ path('show_experiences', {'profile': profile.id }) }}">Voir les expériences</a>#}
+{#        <a href="{{ path('show_documents', {'profile': profile.id }) }}">Voir les documents</a>#}
+    </p>
 </div>
 {% endblock %}

@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Compétences profil{% endblock %}
+
+{% block body %}
+
+    <h1>Compétences : {{ profile.firstName }} {{ profile.lastName }}</h1>
+    <ul>
+        {% for profileCompetence in profileCompetences|sort((a, b) => a.competence.libelle <=> b.competence.libelle) %}
+            <li>{{ profileCompetence.competence.libelle }}</li>
+{#            ajouter les delete#}
+{#            formulaire d'ajout#}
+{#            actions edit#}
+        {% endfor %}
+    </ul>
+
+
+{% endblock %}
+
