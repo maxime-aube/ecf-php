@@ -27,12 +27,11 @@ class ProfileController extends AbstractController
      */
     public function index(?Profile $profile): Response
     {
-        // redirige vers le propre profil de l'utilisateur en cas de requête erronnée/interdite
-        if (
-            !isset($profile) ||                                                                         // profile mal requêté
-            (!$this->isGranted('ROLE_ADMIN') && $profile !== $this->getUser()->getProfile())    // profil interdit d'accès
-        ) {
+        if (is_null($profile)) {
             $profile = $this->getUser()->getProfile();
+        }
+        // redirige vers le propre profil de l'utilisateur en cas de requête erronnée ou d'accès interdit
+        if (!$this->isGranted('ROLE_ADMIN') && $profile !== $this->getUser()->getProfile()) {
             $this->addFlash('error', 'Redirection profil : le profil auquel vous avez tenté d\'accéder était introuvable ou ne vous est pas ouvert.' );
             $this->redirectToRoute('show_profile', ['profile' => $profile->getId()]);
         }

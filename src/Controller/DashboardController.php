@@ -7,12 +7,16 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
+/**
+ * Class DashboardController
+ * @package App\Controller
+ * @Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_COMMERCIAL')")
+ */
 class DashboardController extends AbstractController
 {
     /**
      * @Route("/", name="default")
      * @Route("/dashboard", name="dashboard")
-     * @Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_COMMERCIAL')")
      * @return Response
      */
     public function index(): Response

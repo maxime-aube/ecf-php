@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ProfileCompetenceRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ProfileCompetenceRepository::class)
@@ -19,6 +20,14 @@ class ProfileCompetence
 
     /**
      * @ORM\Column(type="smallint")
+     * @Assert\GreaterThanOrEqual(
+     *     value=1,
+     *     message="minimum 1"
+     * )
+     * @Assert\LessThanOrEqual(
+     *     value=5,
+     *     message="maximum 5"
+     * )
      */
     private $level;
 

@@ -5,15 +5,35 @@
 {% block body %}
 
     <h1>Compétences : {{ profile.firstName }} {{ profile.lastName }}</h1>
+
+    {% for message in app.flashes('success') %}
+        <p>{{ message }}</p>
+    {% endfor %}
+
+    <div>
+        <h2>ajouter une compétence</h2>
+        {{ form_start(add_profile_competence_form) }}
+            {{ form_errors(add_profile_competence_form) }}
+        {{ form_end(add_profile_competence_form) }}
+    </div>
+
     <ul>
+        <h2>liste des compétences</h2>
         {% for profileCompetence in profileCompetences|sort((a, b) => a.competence.libelle <=> b.competence.libelle) %}
-            <li>{{ profileCompetence.competence.libelle }}</li>
-{#            ajouter les delete#}
-{#            formulaire d'ajout#}
-{#            actions edit#}
+            <li>
+                {{ profileCompetence.competence.libelle }} ({{ profileCompetence.level }}/5)
+                <a href="{{ path('edit_profile_competence', {'profileCompetence': profileCompetence.id }) }}"><button>edit</button></a>
+                <a href="{{ path('remove_profile_competence', {'profileCompetence': profileCompetence.id }) }}"><button>suppr.</button></a>
+                {% if profileCompetence.liked %}
+{#                    <img src="" alt="illustration étoile liké :)">#}
+                    <span title="j'aime :)">★</span>
+                {% else %}
+{#                    <img src="" alt="illustration non liké :(">#}
+                    <span title="j'aime pas :(">☆</span>
+                {% endif %}
+            </li>
         {% endfor %}
     </ul>
-
 
 {% endblock %}
 

@@ -14,8 +14,11 @@ class AuthenticatorController extends AbstractController
      */
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
-         if ($this->getUser()) {
-             return $this->redirectToRoute('profile');
+        // dashboard pour les admins et commerciaux (utilisateurs de la structure)
+         if ($this->isGranted('ROLE_ADMIN') || $this->isGranted('ROLE_COMMERCIAL')) return $this->redirectToRoute('dashboard');
+         // affichage profil pour les collaborateurs
+         if ($this->isGranted('ROLE_USER')) {
+             return $this->redirectToRoute('show_profile', ['profile' => $this->getUser()->getProfile()->getId()]);
          }
 
         // get the login error if there is one
@@ -31,6 +34,6 @@ class AuthenticatorController extends AbstractController
      */
     public function logout()
     {
-        throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
+        throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.'); // Ok...
     }
 }
