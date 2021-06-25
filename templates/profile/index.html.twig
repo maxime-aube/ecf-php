@@ -10,6 +10,11 @@
 
 <h1>Profil</h1>
 
+
+    {% for message in app.flashes('redirect') %}
+        <p>{{ message }}</p>
+    {% endfor %}
+
 <div>
     {% for message in app.flashes('error') %}
         <p>{{ message }}</p>
@@ -25,9 +30,9 @@
     </ul>
 
     <p>
-        <a href="{{ path('show_profile_competences', {'profile': profile.id }) }}">Voir les compétences</a>
-{#        <a href="{{ path('show_experiences', {'profile': profile.id }) }}">Voir les expériences</a>#}
-{#        <a href="{{ path('show_documents', {'profile': profile.id }) }}">Voir les documents</a>#}
+        <a href="{{ path('show_profile_competences', {'profile': profile.id }) }}">Voir les compétences</a><br>
+{#        <a href="{{ path('show_experiences', {'profile': profile.id }) }}">Voir les expériences</a>#}<br>
+        <a href="{{ path('show_documents', {'profile': profile.id }) }}">Voir les documents</a>
     </p>
 </div>
 {% endblock %}

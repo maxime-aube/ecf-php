@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profile Documents{% endblock %}
+
+{% block body %}
+
+    <h1>Gestion des documents de {{ app.user.profile.firstName }} {{ app.user.profile.lastName }}</h1>
+
+    {% for message in app.flashes('redirect') %}
+        <p>{{ message }}</p>
+    {% endfor %}
+
+    {% for message in app.flashes('removed') %}
+        <p>{{ message }}</p>
+    {% endfor %}
+
+    {% if documents|length > 0 %}
+        <ul>
+            {% for document in documents %}
+                <li>
+                    <a href="{{ asset('/uploaded/profile/' ~ document.fileName) }}" download>{{ document.fileName }}</a>
+                    <a href="{{ path('remove_document', {'document': document.id }) }}"><button>suppr.</button></a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Aucun fichier associé à votre profil</p>
+    {% endif %}
+
+    <div>
+        {{ form_start(documents_form) }}
+        {{ form_errors(documents_form) }}
+        {{ form_end(documents_form) }}
+    </div>
+
+{% endblock %}

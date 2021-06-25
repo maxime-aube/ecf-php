@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Profile;
 use App\Form\ProfileType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,17 +24,17 @@ class ProfileController extends AbstractController
      * @Route("")
      * @Route("/{profile}", name="show_profile", requirements={"profile"="\d+"})
      * @param ?Profile $profile
-     * @return Response
+     * @return Response|RedirectResponse
      */
-    public function index(?Profile $profile): Response
+    public function index(?Profile $profile)
     {
         if (is_null($profile)) {
             $profile = $this->getUser()->getProfile();
         }
         // redirige vers le propre profil de l'utilisateur en cas de requête erronnée ou d'accès interdit
         if (!$this->isGranted('ROLE_ADMIN') && $profile !== $this->getUser()->getProfile()) {
-            $this->addFlash('error', 'Redirection profil : le profil auquel vous avez tenté d\'accéder était introuvable ou ne vous est pas ouvert.' );
-            $this->redirectToRoute('show_profile', ['profile' => $profile->getId()]);
+            $this->addFlash('redirect', 'Vous avez été redirigé vers votre profil (erreur ou interdiction)');
+            return $this->redirectToRoute('show_profile', ['profile' => $profile->getId()]);
         }
 
         return $this->render('profile/index.html.twig', [

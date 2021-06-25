@@ -20,17 +20,6 @@ class Document
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $libelle;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="document")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $category;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
     private $fileName;
 
     /**
@@ -39,33 +28,14 @@ class Document
      */
     private $profile;
 
+    /**
+     * @ORM\Column(type="datetime_immutable")
+     */
+    private $uploadedAt;
+
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getLibelle(): ?string
-    {
-        return $this->libelle;
-    }
-
-    public function setLibelle(string $libelle): self
-    {
-        $this->libelle = $libelle;
-
-        return $this;
-    }
-
-    public function getCategory(): ?Category
-    {
-        return $this->category;
-    }
-
-    public function setCategory(?Category $category): self
-    {
-        $this->category = $category;
-
-        return $this;
     }
 
     public function getFileName(): ?string
@@ -88,6 +58,18 @@ class Document
     public function setProfile(?Profile $profile): self
     {
         $this->profile = $profile;
+
+        return $this;
+    }
+
+    public function getUploadedAt(): ?\DateTimeImmutable
+    {
+        return $this->uploadedAt;
+    }
+
+    public function setUploadedAt(\DateTimeImmutable $uploadedAt): self
+    {
+        $this->uploadedAt = $uploadedAt;
 
         return $this;
     }

@@ -6,6 +6,9 @@
 
     <h1>Compétences : {{ profile.firstName }} {{ profile.lastName }}</h1>
 
+    {% for message in app.flashes('redirect') %}
+        <p>{{ message }}</p>
+    {% endfor %}
     {% for message in app.flashes('success') %}
         <p>{{ message }}</p>
     {% endfor %}

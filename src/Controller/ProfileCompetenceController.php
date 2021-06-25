@@ -36,9 +36,10 @@ class ProfileCompetenceController extends AbstractController
     {
         if (
             !isset($profile) ||                                                                         // profile mal requêté
-            (!$this->isGranted('ROLE_ADMIN') && $profile !== $this->getUser()->getProfile())    // profil interdit d'accès
+            (!$this->isGranted('ROLE_ADMIN') && !$this->isGranted('ROLE_COMMERCIAL') && $profile !== $this->getUser()->getProfile())    // profil interdit d'accès
         ) {
             $profile = $this->getUser()->getProfile();
+            $this->addFlash('redirect', 'Vous avez été redirigé vers votre profil (erreur ou interdiction)');
         }
 
         $em = $this->getDoctrine()->getManager();
