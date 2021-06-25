@@ -90,8 +90,8 @@ class AppFixtures extends Fixture
 
         // admin profil
         $profile = new Profile();
-        $profile->setFirstName('Prénom');
-        $profile->setLastName('Nom');
+        $profile->setFirstName('Anon');
+        $profile->setLastName('Mundi');
         $profile->setBirthDate(new DateTime());
         $profile->setDisplayedToPeers(true);
         $profile->setEssay('Insert 300 words essay...');

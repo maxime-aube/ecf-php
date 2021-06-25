@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit profile{% endblock %}
+
+{% block body %}
+
+    <h1>Edition des infos profil : {{ app.user.profile.firstName }} {{ app.user.profile.lastName }}</h1>
+
+
+    {% for message in app.flashes('redirect') %}
+        <p>{{ message }}</p>
+    {% endfor %}
+
+    {% for message in app.flashes('error') %}
+        <p>{{ message }}</p>
+    {% endfor %}
+
+    {{ form_start(edit_profile_form) }}
+        {{ form_errors(edit_profile_form) }}
+    {{ form_end(edit_profile_form) }}
+{% endblock %}

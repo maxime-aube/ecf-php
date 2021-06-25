@@ -10,16 +10,16 @@
 
 <h1>Profil</h1>
 
-
     {% for message in app.flashes('redirect') %}
         <p>{{ message }}</p>
     {% endfor %}
 
-<div>
     {% for message in app.flashes('error') %}
         <p>{{ message }}</p>
     {% endfor %}
-    <h1>{{ profile.firstName }} {{ profile.lastName }}</h1>
+
+<div>
+    <h2>{{ profile.firstName }} {{ profile.lastName }}</h2>
     <ul>
         <li>Date de naissance : {{ profile.birthDate|date('d/m/Y') }}</li>
         <li>Email : <a href="mailto:{{ profile.user.email }}">{{ profile.user.email }}</a></li>
@@ -28,6 +28,8 @@
         <li>Description : {{ profile.essay }}</li>
         {% if admin %}<li>Visible par les autres : {{ (profile.displayedToPeers) ? '✅' : '❌' }}</li>{% endif %}
     </ul>
+
+    <a href="{{ path('edit_profile', {'profile': profile.id}) }}"><button>modifier</button></a>
 
     <p>
         <a href="{{ path('show_profile_competences', {'profile': profile.id }) }}">Voir les compétences</a><br>

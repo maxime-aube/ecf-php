@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Profile;
+use App\Form\EditProfileType;
 use App\Form\ProfileType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -49,15 +50,15 @@ class ProfileController extends AbstractController
      */
     public function new(Request $request): Response
     {
+        $em = $this->getDoctrine()->getManager();
         $profile = new Profile();
         $form = $this->createForm(ProfileType::class, $profile);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($profile);
-            $entityManager->flush();
+            $em->persist($profile);
+            $em->flush();
         }
 
         return $this->render('profile/new.html.twig', [
@@ -66,14 +67,35 @@ class ProfileController extends AbstractController
     }
 
     /**
-     * @Route("/edit/{profile}", name="edit_profile", requirements={"profile":"\d+"})
+     * @Route("/edit/{profile}", name="edit_profile", requirements={"profile":"\d+"}, methods={"GET", "POST"})
      * @param Request $request
-     * @param Profile $profile
+     * @param ?Profile $profile
      * @return Response
      */
-    public function edit(Request $request, Profile $profile): Response
+    public function edit(Request $request, ?Profile $profile): Response
     {
-        return $this->render('profile/edit.html.twig');
+        if (is_null($profile)) {
+            $profile = $this->getUser()->getProfile();
+        }
+        // redirige vers le propre profil de l'utilisateur en cas de requête erronnée ou d'accès interdit
+        if ((!$this->isGranted('ROLE_ADMIN') && !$this->isGranted('ROLE_ADMIN')) && $profile !== $this->getUser()->getProfile()) {
+            $this->addFlash('redirect', 'Vous avez été redirigé vers votre profil (erreur ou interdiction)');
+            return $this->redirectToRoute('show_profile', ['profile' => $profile->getId()]);
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $form = $this->createForm(EditProfileType::class, $profile);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->flush();
+            $this->addFlash('success', 'Le profil a été mis à jour !');
+            return $this->redirectToRoute('show_profile', ['profile' => $profile->getId()]);
+        }
+
+        return $this->render('profile/edit.html.twig', [
+            'edit_profile_form' => $form->createView()
+        ]);
     }
 
     /**

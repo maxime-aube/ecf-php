@@ -6,6 +6,10 @@
 
     <h1>Edition compétence : {{ profile_competence.profile.firstName }} {{ profile_competence.profile.lastName }}</h1>
 
+    {% for message in app.flashes('redirect') %}
+        <p>{{ message }}</p>
+    {% endfor %}
+
     <h2>{{ profile_competence.competence.libelle }}</h2>
 
     {{ form_start(edit_profile_competence_form) }}
