@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ExperienceController!{% endblock %}
+
+{% block body %}
+
+    <h1>Ajouter une expérience professionnelle pour {{ app.user.profile.firstName }} {{ app.user.profile.lastName }}</h1>
+
+    {{ form_start(form) }}
+        {{ form_errors(form) }}
+    {{ form_end(form) }}
+
+{% endblock %}

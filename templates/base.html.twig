@@ -11,14 +11,25 @@
         {% endblock %}
     </head>
     <body>
-        {% block body %}
-            {%  block header %}
-{#                TODO -> header (barre de recherche, logout)#}
-            {%  endblock header %}
 
-            {%  block footer %}
+    {%  block header %}
+
+        {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_COMMERCIAL') %}
+            Insert champ de recherche
+        {% endif %}
+
+        <a href="{{ path('app_logout') }}">Se déconnecter</a>
+
+    {%  endblock header %}
+
+
+    {% block body %}
+        <p>Y'a rien ici !! ¯\_(ツ)_/¯</p>
+    {% endblock %}
+
+    {%  block footer %}
 {#                TODO -> footer (what you know xD )#}
-            {%  endblock footer %}
-        {% endblock %}
+    {%  endblock footer %}
+
     </body>
 </html>

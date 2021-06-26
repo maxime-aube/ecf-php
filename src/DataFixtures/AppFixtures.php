@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Category;
+use App\Entity\Company;
 use App\Entity\Competence;
 use App\Entity\Profile;
 use App\Entity\ProfileCompetence;
@@ -25,7 +26,6 @@ class AppFixtures extends Fixture
     //symfony console doctrine:migrations:migrate
     //symfony console doctrine:fixtures:load
 
-    public const COMPETENCE_COUNT = 30;
 
     public const COMPETENCE_LIST = [
         'lire sur les lèvres',
@@ -36,9 +36,9 @@ class AppFixtures extends Fixture
         'inclusivité non discriminante',
         'télékinésie',
         '"agilité" verbale',
-        'réparer les imprimantes',
+        'réparer l\'imprimante',
         'débuguer le truc',
-        'programmer sous Windows',
+        'programmer sous Windowb',
         'jonglage',
         'selfies',
         'résistance accrue aux poisons',
@@ -47,6 +47,18 @@ class AppFixtures extends Fixture
         'lecture rapide',
         'sommeil polyphasique',
         'exorcisme',
+        'surfer sur les internets',
+        ''
+    ];
+
+    public const COMPANIES_LIST = [
+        'McDonald\'s',
+        'KFC',
+        'Subway',
+        'Pizza Hut',
+        'Quick',
+        'Burger King',
+        'Starbucks'
     ];
 
     private $passwordEncoder;
@@ -85,6 +97,15 @@ class AppFixtures extends Fixture
             $category = $manager->getRepository(Category::class)->findOneBy(['libelle' => 'categoryFixture_' . mt_rand(1, 4)]);
             $competence->setCategory($category);
             $manager->persist($competence);
+        }
+        $manager->flush();
+
+        // entreprises
+        foreach(self::COMPANIES_LIST as $companyName) {
+
+            $entreprise = new Company();
+            $entreprise->setName($companyName);
+            $manager->persist($entreprise);
         }
         $manager->flush();
 

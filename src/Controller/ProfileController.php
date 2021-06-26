@@ -33,7 +33,7 @@ class ProfileController extends AbstractController
             $profile = $this->getUser()->getProfile();
         }
         // redirige vers le propre profil de l'utilisateur en cas de requête erronnée ou d'accès interdit
-        if (!$this->isGranted('ROLE_ADMIN') && $profile !== $this->getUser()->getProfile()) {
+        if (!$this->isGranted('ROLE_ADMIN') && !$this->isGranted('ROLE_COMMERCIAL') && $profile !== $this->getUser()->getProfile()) {
             $this->addFlash('redirect', 'Vous avez été redirigé vers votre profil (erreur ou interdiction)');
             return $this->redirectToRoute('show_profile', ['profile' => $profile->getId()]);
         }

@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ExperienceController!{% endblock %}
+
+{% block body %}
+    <p><a href="{{ path('show_profile', {'profile': profile.id}) }}">Retour au profil</a></p>
+    <h1>Expériences de {{ app.user.profile.firstName }} {{ app.user.profile.lastName }}</h1>
+
+    {% for experience in experiences %}
+            <div>
+                {{ experience.jobTitle }} chez {{ experience.company }} ({{ experience.location }})
+                {% if experience.end is null %}
+                    depuis {{ experience.start|date('F Y') }} (en cours)
+                {%  else %}
+                    de {{ experience.start|date('F Y') }} à {{ experience.end|date('F Y') }}
+                {% endif %}
+                <a href="{{ path('edit_experience', {'experience': experience.id}) }}"><button>edit</button></a>
+                <p>{{ experience.description }}</p>
+            </div>
+    {% endfor %}
+
+    <a href="{{ path('add_experience', {'profile': app.user.profile.id}) }}"><button>Ajouter</button></a>
+
+{% endblock %}
