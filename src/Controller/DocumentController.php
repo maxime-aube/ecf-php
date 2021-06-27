@@ -11,8 +11,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-
-// Pourquoi ils restent en gris quand c'est utilisé dans les annotations ? (triggering sh*t)
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
@@ -89,11 +87,15 @@ class DocumentController extends AbstractController
      */
      public function remove(Document $document)
      {
-         // TODO -> fonctionnalité de suppression fichier
+         // TODO -> fonctionnalité de suppression fichier (filesystem)
 
-         $profile = $this->getUser()->getProfile();
+         $em = $this->getDoctrine()->getManager();
 
+
+         $em->remove($document);
+         $em->flush();
          $this->addFlash('removed', 'Le fichier a bien été supprimé de votre profil');
-         return $this->redirectToRoute('show_documents', ['profile' => $profile->getId()]);
+
+         return $this->redirectToRoute('show_documents', ['profile' => $this->getUser()->getProfile()->getId()]);
      }
 }

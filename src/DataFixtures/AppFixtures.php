@@ -9,6 +9,7 @@ use App\Entity\Profile;
 use App\Entity\ProfileCompetence;
 use App\Entity\User;
 use DateTime;
+use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface; // oui deprecated depuis 5.3 y'a 2 semaines... ON SAIT !!
@@ -21,10 +22,6 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface; // oui
 class AppFixtures extends Fixture
 {
 // Pour purger les fixtures /!\ supprime et reconstruit tout la base de données
-    //symfony console doctrine:database:drop --force
-    //symfony console doctrine:database:create
-    //symfony console doctrine:migrations:migrate
-    //symfony console doctrine:fixtures:load
 
 
     public const COMPETENCE_LIST = [
@@ -111,6 +108,7 @@ class AppFixtures extends Fixture
 
         // admin profil
         $profile = new Profile();
+        $profile->setCreatedAt(new DateTimeImmutable());
         $profile->setFirstName('Anon');
         $profile->setLastName('Mundi');
         $profile->setBirthDate(new DateTime());
@@ -139,6 +137,7 @@ class AppFixtures extends Fixture
 
         // commercial profil
         $profile = new Profile();
+        $profile->setCreatedAt(new DateTimeImmutable());
         $profile->setFirstName('Manu');
         $profile->setLastName('Micron');
         $profile->setBirthDate(new DateTime());
@@ -156,7 +155,7 @@ class AppFixtures extends Fixture
         $user->setEmail('micron.commercial@skillhub.com');
         $user->setProfile($profile);
         $user->setIsVerified(true);
-        $user->setPassword($this->passwordEncoder->encodePassword($user,'laBaffe100'));
+        $user->setPassword($this->passwordEncoder->encodePassword($user,'laBaffe100%'));
 
         $manager->persist($user);
         $manager->flush();
@@ -168,6 +167,7 @@ class AppFixtures extends Fixture
 
         // collaborateur profil
         $profile = new Profile();
+        $profile->setCreatedAt(new DateTimeImmutable());
         $profile->setFirstName('Maxime');
         $profile->setLastName('Aubé');
         $profile->setBirthDate(new DateTime());
@@ -197,6 +197,7 @@ class AppFixtures extends Fixture
         // candidat profiles
         for ($i = 1; $i <= 10; $i++) {
             $profile = new Profile();
+            $profile->setCreatedAt(new DateTimeImmutable());
             $profile->setFirstName('Prénom_' . $i);
             $profile->setLastName('Nom_' . $i);
             $profile->setBirthDate(new DateTime());

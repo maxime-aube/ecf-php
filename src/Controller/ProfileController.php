@@ -57,6 +57,7 @@ class ProfileController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            $profile->setCreatedAt(new \DateTimeImmutable());
             $em->persist($profile);
             $em->flush();
         }
@@ -88,6 +89,9 @@ class ProfileController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $profile->setUpdatedAt(new \DateTimeImmutable());
+            $em->persist($profile);
             $em->flush();
             $this->addFlash('success', 'Le profil a été mis à jour !');
             return $this->redirectToRoute('show_profile', ['profile' => $profile->getId()]);
@@ -106,36 +110,5 @@ class ProfileController extends AbstractController
     {
         return $this->render('profile/remove.html.twig');
     }
-
-
-
-
-
-
-
-//
-//    /**
-//     *
-//     * @Route("/edit/experiences/{profile}", name="edit_profile_experiences", requirements={"profile":"\d+"})
-//     * @param Request $request
-//     * @param Profile $profile
-//     * @return Response
-//     */
-//    public function Experiences(Request $request, Profile $profile): Response
-//    {
-//
-//    }
-//
-//    /**
-//     *
-//     * @Route("/edit/documents/{profile}", name="edit_profile_documents", requirements={"profile":"\d+"})
-//     * @param Request $request
-//     * @param Profile $profile
-//     * @return Response
-//     */
-//    public function Documents(Request $request, Profile $profile): Response
-//    {
-//
-//    }
 
 }

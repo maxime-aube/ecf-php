@@ -10,12 +10,13 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class AuthenticatorController extends AbstractController
 {
     /**
+     * @Route("")
      * @Route("/login", name="app_login")
      */
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
         // dashboard pour les admins et commerciaux (utilisateurs de la structure)
-         if ($this->isGranted('ROLE_ADMIN') || $this->isGranted('ROLE_COMMERCIAL')) return $this->redirectToRoute('dashboard');
+         if ($this->isGranted('ROLE_ADMIN') || $this->isGranted('ROLE_COMMERCIAL')) return $this->redirectToRoute('admin');
          // affichage profil pour les collaborateurs
          if ($this->isGranted('ROLE_USER')) {
              return $this->redirectToRoute('show_profile', ['profile' => $this->getUser()->getProfile()->getId()]);

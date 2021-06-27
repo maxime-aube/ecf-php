@@ -3,6 +3,8 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Skillhub{% endblock %}</title>
+        <link rel="shortcut icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+
         {% block stylesheets %}
 {#            TODO -> mettre des choses ici (un jour (peut-être))#}
         {% endblock %}
@@ -13,13 +15,7 @@
     <body>
 
     {%  block header %}
-
-        {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_COMMERCIAL') %}
-            Insert champ de recherche
-        {% endif %}
-
         <a href="{{ path('app_logout') }}">Se déconnecter</a>
-
     {%  endblock header %}
 
 
@@ -28,7 +24,11 @@
     {% endblock %}
 
     {%  block footer %}
-{#                TODO -> footer (what you know xD )#}
+        <p style="position: absolute; bottom: 25px; text-align: center">
+            <a href="https://www.keepcalmandcarryon.com/buy-keep-calm-variations-and-memes/?shortcode=wRqBhodqmmqS" title="keep calm and carry on">
+                Get the merch !
+            </a>
+        </p>
     {%  endblock footer %}
 
     </body>
