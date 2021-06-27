@@ -46,6 +46,6 @@ Charger les fixtures permet de tester le projet avec ces trois comptes
 
 ID:pasword (role)
 
-admin@skillhub.com:verySecure_1234 (admin)
-micron.commercial@skillhub.com:laBaffe100% (commercial)
-aube.collaborateur@skillhub.com:keepCalm&h8 (collaborateur)
+1) admin@skillhub.com:verySecure_1234 (admin)
+2) micron.commercial@skillhub.com:laBaffe100% (commercial)
+3) aube.collaborateur@skillhub.com:keepCalm&h8 (collaborateur)
