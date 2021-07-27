@@ -11,7 +11,7 @@ class AuthenticatorController extends AbstractController
 {
     /**
      * @Route("")
-     * @Route("/login", name="app_login")
+     * @Route("/login", name="app_authenticator_login")
      */
     public function login(AuthenticationUtils $authenticationUtils): Response
     {

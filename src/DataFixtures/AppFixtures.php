@@ -21,12 +21,10 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface; // oui
  */
 class AppFixtures extends Fixture
 {
-// Pour purger les fixtures /!\ supprime et reconstruit tout la base de données
-
 
     public const COMPETENCE_LIST = [
         'lire sur les lèvres',
-        'identifier les plantes commestibles',
+        'identifier les plantes comestibles',
         'faire du bon café',
         'ponctualité irréprochable',
         'saluer chaleureusement',
@@ -45,7 +43,6 @@ class AppFixtures extends Fixture
         'sommeil polyphasique',
         'exorcisme',
         'surfer sur les internets',
-        ''
     ];
 
     public const COMPANIES_LIST = [
