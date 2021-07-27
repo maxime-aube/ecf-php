@@ -10,19 +10,30 @@ Les instructions ci -dessous sont pour une démonstration dans un environnement 
 - MAILER_DSN=smtp://localhost
 - DATABASE_URL="mysql://username:password@127.0.0.1:3306/dbname" -> remplacer username, password, dbname - et éventuellent 127.0.0.1:3306 - par vos informations respectives pour l'accès à votre SGBD
 
-
+##Installation
+    
     composer update && composer install //met à jour et installe les dépendances du projet
-    symfony console doctrine:database:create //création de la base de données
+    symfony console doctrine:database:creat //création de la base de données
     symfony console doctrine:migrations:migrate //exécutions des migrations nécessaires pour charger le modèle de données
     symfony console doctrine:fixtures:load //charge les fixtures dans la db (jeu de données nécessaire pour tester le projet)
     symfony serve //lance le serveur local sur un port disponible (localhost:8000 par défaut)
-
-##Pour réinitialiser la base de données et recharger les fixtures
+  
+##Pour purger la base de données et recharger les fixtures
 
     symfony console doctrine:database:drop --force
     symfony console doctrine:database:create
     symfony console doctrine:migrations:migrate
     symfony console doctrine:fixtures:load
+
+##Test users
+
+Charger les fixtures permet de tester le projet avec ces trois comptes
+
+ID:pasword (role)
+
+1) admin@skillhub.com:verySecure_1234 (admin)
+2) micron.commercial@skillhub.com:laBaffe100% (commercial)
+3) aube.collaborateur@skillhub.com:keepCalm&h8 (collaborateur)
 
 ##Projet
 
@@ -41,13 +52,3 @@ Les catégories (utilisateurs, compétences, etc... sont toutes regroupées dans
 
 Les profils sont administrés via un système de vues et de formulaires indépendant du easy admin, qui n'a été installé qu'à la fin pour un affichage Dashboard
 Le système d'upload de documents fonctionne, mais il n'est pas encore possible de les supprimer (implémenter filesystem pour ça)de 
-
-##Comptes de test
-
-Charger les fixtures permet de tester le projet avec ces trois comptes
-
-ID:pasword (role)
-
-1) admin@skillhub.com:verySecure_1234 (admin)
-2) micron.commercial@skillhub.com:laBaffe100% (commercial)
-3) aube.collaborateur@skillhub.com:keepCalm&h8 (collaborateur)
